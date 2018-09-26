@@ -34,6 +34,9 @@ server.get('/sendGet',(req,res,next)=>{
 //CREATE NEW PRODUCT
 server.put('/sendPost',(req,res,next)=>{
 
+    console.log('SendPost: received request');
+    sendPostCounter++;
+    console.log('Pocessed Request Count--> SendGET:'+sendGetCounter+' ,sendPOST:'+sendPostCounter);
     if(req.params.product === undefined){
         return next (new restify.InvalidArgumentError('Product must be Provided'));
     }
@@ -49,5 +52,5 @@ server.put('/sendPost',(req,res,next)=>{
         if(error) return next(new restify.InvalidArgumentError(JSON.stringify(error.erros)));
         res.send(201,user);
     })
-
+    console.log('SendPost: Sending Request');
 })
