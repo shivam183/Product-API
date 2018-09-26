@@ -54,3 +54,12 @@ server.post('/sendPost',(req,res,next)=>{
     })
     console.log('SendPost: Sending Request');
 })
+
+//DELETE ALL PRODUCTS
+server.del('/sendDelete',(req,res,next)=>{
+
+    usersave.deleteMany({},(error,user)=>{
+        if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+        res.send(user);
+    })
+})
