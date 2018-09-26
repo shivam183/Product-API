@@ -5,6 +5,7 @@ var HOST='127.0.0.1';
 
 var sendGetCounter=0;
 var sendPostCounter=0;
+var sendDeleteCounter=0;
 
 var restify = require('restify'),
 usersave = require('save')('products'),
@@ -15,6 +16,7 @@ server.listen(PORT,HOST,function(){
     console.log('ENDPOINTS:');
     console.log('http://'+HOST+'/sendGet'+' METHOD:GET');
     console.log('http://'+HOST+'/sendPost'+' Method:POST');
+    console.log('http://'+HOST+'/sendDelete'+' Method:DELETE');
 })
 
 server.use(restify.fullResponse()).use(restify.bodyParser());
@@ -36,7 +38,7 @@ server.post('/sendPost',(req,res,next)=>{
 
     console.log('SendPost: received request');
     sendPostCounter++;
-    console.log('Pocessed Request Count--> SendGET:'+sendGetCounter+' ,sendPOST:'+sendPostCounter);
+    console.log('Pocessed Request Count--> SendGET:'+sendGetCounter+' ,sendPOST:'+sendPostCounter+' ,SendDelete'+sendDeleteCounter);
     if(req.params.product === undefined){
         return next (new restify.InvalidArgumentError('Product must be Provided'));
     }
@@ -58,8 +60,12 @@ server.post('/sendPost',(req,res,next)=>{
 //DELETE ALL PRODUCTS
 server.del('/sendDelete',(req,res,next)=>{
 
+    console.log('Delete: Request Received');
+    sendDeleteCounter++;
+    console.log('Pocessed Request Count--> SendGET:'+sendGetCounter+' ,sendPOST:'+sendPostCounter+' ,SendDelete'+sendDeleteCounter);
     usersave.deleteMany({},(error,user)=>{
         if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
         res.send(user);
     })
+    console.log('Delete: Sending Request');
 })
