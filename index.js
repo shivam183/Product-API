@@ -32,7 +32,7 @@ server.get('/sendGet',(req,res,next)=>{
 })
 
 //CREATE NEW PRODUCT
-server.put('/sendPost',(req,res,next)=>{
+server.post('/sendPost',(req,res,next)=>{
 
     console.log('SendPost: received request');
     sendPostCounter++;
