@@ -51,7 +51,7 @@ server.post('/sendPost',(req,res,next)=>{
         price:req.params.price
     };
     usersave.create(newProduct,(error,user)=>{
-        if(error) return next(new restify.InvalidArgumentError(JSON.stringify(error.erros)));
+        if(error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)));
         res.send(201,user);
     })
     console.log('SendPost: Sending Request');
@@ -63,9 +63,6 @@ server.del('/sendDelete',(req,res,next)=>{
     console.log('Delete: Request Received');
     sendDeleteCounter++;
     console.log('Pocessed Request Count--> SendGET:'+sendGetCounter+' ,sendPOST:'+sendPostCounter+' ,SendDelete:'+sendDeleteCounter);
-    usersave.deleteMany({},(error,user)=>{
-        if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
-        res.send(user);
-    })
+    usersave.deleteMany();
     console.log('Delete: Sending Request');
 })
