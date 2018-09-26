@@ -7,8 +7,8 @@ usersave = require('save')('products'),
 server=restify.createServer({name:SERVER_NAME});
 
 server.listen(PORT,HOST,function(){
-    console.log('Server is listening at '+HOST+':'+PORT);
+    console.log('Server is listening at http://'+HOST+':'+PORT);
     console.log('ENDPOINTS:');
-    console.log(HOST+'/sendGet'+' METHOD:GET');
-    console.log(HOST+'/sendPost'+' Method:POST');
+    console.log('http://'+HOST+'/sendGet'+' METHOD:GET');
+    console.log('http://'+HOST+'/sendPost'+' Method:POST');
 })
