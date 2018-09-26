@@ -1,0 +1,12 @@
+{
+  "name": "product-api",
+  "version": "1.0.0",
+  "description": "Rest API- Products",
+  "main": "index.js",
+  "dependencies": {
+    "restify": "4.1.1",
+    "save": "2.3.0"
+},
+  "author": "Shivam",
+  "license": "ISC"
+}
