@@ -20,7 +20,7 @@ server.listen(PORT,HOST,function(){
 server.use(restify.fullResponse()).use(restify.bodyParser());
 
 //GET ALL PRODUCTS
-server.get('/sendGET',(req,res,next)=>{
+server.get('/sendGet',(req,res,next)=>{
 
     console.log('SendGet: received request');
     sendGetCounter++;
@@ -29,4 +29,25 @@ server.get('/sendGET',(req,res,next)=>{
         res.send(users);
     })
     console.log('SendGet: sending request');
+})
+
+//CREATE NEW PRODUCT
+server.put('/sendPost',(req,res,next)=>{
+
+    if(req.params.product === undefined){
+        return next (new restify.InvalidArgumentError('Product must be Provided'));
+    }
+    if(req.params.price===undefined){
+        return next (new restify.InvalidArgumentError('Price must be Provided'));
+    }
+
+    var newProduct={
+        product:req.params.product,
+        price:req.params.price
+    };
+    usersave.create(newProduct,(error,user)=>{
+        if(error) return next(new restify.InvalidArgumentError(JSON.stringify(error.erros)));
+        res.send(201,user);
+    })
+
 })
