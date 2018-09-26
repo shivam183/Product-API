@@ -26,7 +26,7 @@ server.get('/sendGet',(req,res,next)=>{
 
     console.log('SendGet: received request');
     sendGetCounter++;
-    console.log('Pocessed Request Count--> SendGET:'+sendGetCounter+' ,sendPOST:'+sendPostCounter);
+    console.log('Pocessed Request Count--> SendGET:'+sendGetCounter+' ,sendPOST:'+sendPostCounter+' ,SendDelete'+sendDeleteCounter);
     usersave.find({},(error,users)=>{
         res.send(users);
     })
