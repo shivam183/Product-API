@@ -14,29 +14,28 @@ server=restify.createServer({name:SERVER_NAME});
 server.listen(PORT,HOST,function(){
     console.log('Server is listening at http://'+HOST+':'+PORT);
     console.log('ENDPOINTS:');
-    console.log('http://'+HOST+':'+PORT+'/sendGet'+' METHOD:GET');
-    console.log('http://'+HOST+':'+PORT+'/sendPost'+' Method:POST');
-    console.log('http://'+HOST+':'+PORT+'/sendDelete'+' Method:DELETE');
+    console.log('http://'+HOST+':'+PORT+'/products'+' METHOD:GET,POST,DELETE');
 })
 
 server.use(restify.fullResponse()).use(restify.bodyParser());
 
 //GET ALL PRODUCTS
-server.get('/sendGet',(req,res,next)=>{
+server.get('/products',(req,res,next)=>{
 
-    console.log('SendGet: received request');
+    console.log('> Get: received request');
     sendGetCounter++;
     console.log('Pocessed Request Count--> SendGET:'+sendGetCounter+' ,sendPOST:'+sendPostCounter+' ,SendDelete:'+sendDeleteCounter);
+    console.log('< Get: sending request');
     productsave.find({},(error,users)=>{
         res.send(users);
     })
-    console.log('SendGet: sending request');
+    
 })
 
 //CREATE NEW PRODUCT
-server.post('/sendPost',(req,res,next)=>{
+server.post('/products',(req,res,next)=>{
 
-    console.log('SendPost: received request');
+    console.log('> Post: received request');
     sendPostCounter++;
     console.log('Pocessed Request Count--> SendGET:'+sendGetCounter+' ,sendPOST:'+sendPostCounter+' ,SendDelete:'+sendDeleteCounter);
     if(req.params.product === undefined){
@@ -50,22 +49,24 @@ server.post('/sendPost',(req,res,next)=>{
         product:req.params.product,
         price:req.params.price
     };
+    console.log('< Post: Sending Request');
     productsave.create(newProduct,(error,user)=>{
         if(error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)));
         res.send(201,user);
     })
-    console.log('SendPost: Sending Request');
+   
 })
 
 //DELETE ALL PRODUCTS
-server.del('/sendDelete',(req,res,next)=>{
+server.del('/products',(req,res,next)=>{
 
-    console.log('Delete: Request Received');
+    console.log('> Delete: Request Received');
     sendDeleteCounter++;
     console.log('Pocessed Request Count--> SendGET:'+sendGetCounter+' ,sendPOST:'+sendPostCounter+' ,SendDelete:'+sendDeleteCounter);
+    console.log('<Delete: Sending Request');
     productsave.deleteMany({},(error,user)=>{
         if(error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)));
         res.send(user);
     });
-    console.log('Delete: Sending Request');
+    
 })
