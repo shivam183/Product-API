@@ -63,6 +63,9 @@ server.del('/sendDelete',(req,res,next)=>{
     console.log('Delete: Request Received');
     sendDeleteCounter++;
     console.log('Pocessed Request Count--> SendGET:'+sendGetCounter+' ,sendPOST:'+sendPostCounter+' ,SendDelete:'+sendDeleteCounter);
-    usersave.deleteMany();
+    usersave.deleteMany({},(error,user)=>{
+        if(error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)));
+        res.send(user);
+    });
     console.log('Delete: Sending Request');
 })
