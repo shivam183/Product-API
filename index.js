@@ -8,15 +8,15 @@ var sendPostCounter=0;
 var sendDeleteCounter=0;
 
 var restify = require('restify'),
-usersave = require('save')('products'),
+productsave = require('save')('products'),
 server=restify.createServer({name:SERVER_NAME});
 
 server.listen(PORT,HOST,function(){
     console.log('Server is listening at http://'+HOST+':'+PORT);
     console.log('ENDPOINTS:');
-    console.log('http://'+HOST+'/sendGet'+' METHOD:GET');
-    console.log('http://'+HOST+'/sendPost'+' Method:POST');
-    console.log('http://'+HOST+'/sendDelete'+' Method:DELETE');
+    console.log('http://'+HOST+':'+PORT+'/sendGet'+' METHOD:GET');
+    console.log('http://'+HOST+':'+PORT+'/sendPost'+' Method:POST');
+    console.log('http://'+HOST+':'+PORT+'/sendDelete'+' Method:DELETE');
 })
 
 server.use(restify.fullResponse()).use(restify.bodyParser());
@@ -27,7 +27,7 @@ server.get('/sendGet',(req,res,next)=>{
     console.log('SendGet: received request');
     sendGetCounter++;
     console.log('Pocessed Request Count--> SendGET:'+sendGetCounter+' ,sendPOST:'+sendPostCounter+' ,SendDelete:'+sendDeleteCounter);
-    usersave.find({},(error,users)=>{
+    productsave.find({},(error,users)=>{
         res.send(users);
     })
     console.log('SendGet: sending request');
@@ -50,7 +50,7 @@ server.post('/sendPost',(req,res,next)=>{
         product:req.params.product,
         price:req.params.price
     };
-    usersave.create(newProduct,(error,user)=>{
+    productsave.create(newProduct,(error,user)=>{
         if(error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)));
         res.send(201,user);
     })
@@ -63,7 +63,7 @@ server.del('/sendDelete',(req,res,next)=>{
     console.log('Delete: Request Received');
     sendDeleteCounter++;
     console.log('Pocessed Request Count--> SendGET:'+sendGetCounter+' ,sendPOST:'+sendPostCounter+' ,SendDelete:'+sendDeleteCounter);
-    usersave.deleteMany({},(error,user)=>{
+    productsave.deleteMany({},(error,user)=>{
         if(error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)));
         res.send(user);
     });
